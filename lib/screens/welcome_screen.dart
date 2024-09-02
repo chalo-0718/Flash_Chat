@@ -1,4 +1,3 @@
-// import 'dart:nativewrappers/_internal/vm/lib/core_patch.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flash_chat/Componets/Rounded_button.dart';
 import 'package:flash_chat/screens/login_screen.dart';
