@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flash_chat/Componets/Rounded_button.dart';
-import 'package:flash_chat/constants.dart';
+import 'package:flash_chat_firebase/Componets/Rounded_button.dart';
+import 'package:flash_chat_firebase/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
