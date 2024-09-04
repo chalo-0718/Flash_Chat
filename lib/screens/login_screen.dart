@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flash_chat_firebase/Componets/Rounded_button.dart';
 import 'package:flash_chat_firebase/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'chat_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -10,12 +12,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String? email;
+  String? password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,32 +32,49 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Image.asset('images/logo.png'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 48.0,
             ),
             TextField(
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                email = value;
               },
-              decoration: kTextFieldDecoration.copyWith(labelText: 'Email'),
+              decoration: kTextFieldDecoration.copyWith(hintText: 'Email'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             TextField(
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                password = value;
               },
-              decoration: kTextFieldDecoration.copyWith(labelText: 'password'),
+              decoration: kTextFieldDecoration.copyWith(hintText: 'password'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24.0,
             ),
             RoundedButton(
               colour: Colors.blueAccent,
-              buttonTitle: 'Register',
-              onPressed: () {
-
+              buttonTitle: 'Log in',
+              onPressed: () async {
+                try {
+                  final credential =
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: email!,
+                    password: password!,
+                  );
+                  if (credential != null) {
+                    Navigator.pushNamed(context, ChatScreen.id);
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found') {
+                    print('No user found for that email.');
+                  } else if (e.code == 'wrong-password') {
+                    print('Wrong password provided for that user.');
+                  }
+                }
               },
             ),
           ],

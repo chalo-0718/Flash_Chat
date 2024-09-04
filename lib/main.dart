@@ -16,7 +16,7 @@ void main() async {
     messagingSenderId: "578544779323",
     appId: "1:578544779323:web:f067871eccd836cc8e1c1e",
     measurementId: "G-Z7L554MGVX",
-  ));
+  ),);
   runApp(FlashChat());
 }
 class FlashChat extends StatelessWidget {
@@ -28,7 +28,13 @@ class FlashChat extends StatelessWidget {
           bodySmall: TextStyle(color: Colors.black54),
         ),
       ),
-      home: WelcomeScreen(),
+      initialRoute: WelcomeScreen.id,
+        routes: {
+          WelcomeScreen.id: (context) => WelcomeScreen(),
+          LoginScreen.id: (context) => LoginScreen(),
+          RegistrationScreen.id: (context) => RegistrationScreen(),
+          ChatScreen.id: (context) => ChatScreen(),
+        },
     );
   }
 }
