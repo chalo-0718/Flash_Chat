@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:flash_chat_firebase/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -74,6 +76,30 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+                stream: _firestore.collection('messages').snapshots(),
+                builder: (context, snapshot) {
+                  List<Text> messagesWidgets = [];
+                  if (snapshot.hasData) {
+                    final messages = snapshot.data!.docs;
+                    List<Text> messagesWidgets = [];
+                    for (var message in messages) {
+                      final messageText = message.data();
+                      final messageSender = message.data();
+
+                      final messageWidget =
+                          Text('$messageText from $messageSender');
+
+                      messagesWidgets.add(messageWidget);
+                    }
+                    return Column(
+                      children: messagesWidgets,
+                    );
+                  }
+                  return Column(
+                    children: messagesWidgets,
+                  );
+                }),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
