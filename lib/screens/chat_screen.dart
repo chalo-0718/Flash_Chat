@@ -84,22 +84,25 @@ class _ChatScreenState extends State<ChatScreen> {
                     final messages = snapshot.data!.docs;
                     List<Text> messagesWidgets = [];
                     for (var message in messages) {
-                      final messageText = message.data();
-                      final messageSender = message.data();
+                      final messageText = message['text'];
+                      final messageSender = message['sender'];
 
                       final messageWidget =
-                          Text('$messageText from $messageSender');
-
+                          Text(
+                            '$messageText from $messageSender',
+                            style: const TextStyle(color: Colors.white),
+                          );
                       messagesWidgets.add(messageWidget);
                     }
                     return Column(
-                      children: messagesWidgets,
-                    );
+                    children: messagesWidgets,
+                  );
                   }
                   return Column(
                     children: messagesWidgets,
                   );
-                }),
+                },
+                ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
